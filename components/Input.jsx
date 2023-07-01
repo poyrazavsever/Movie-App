@@ -24,7 +24,7 @@ const Input = ({ id, inputType = "text", palceholder, label, setValue }) => {
 
             <div className="relative">
 
-                <input type={inputType !== "password" ? inputType : passwordType} placeholder={palceholder} id={id} className='bg-neutral-900 border border-neutral-800 text-neutral-400 text-sm px-4 py-2 rounded placeholder:text-neutral-700 placeholder:text-sm focus:outline-none w-56 sm:w-72' onChange={(e) => setValue(e.target.value)}/>
+                <input type={inputType !== "password" ? inputType : passwordType} placeholder={palceholder} id={id} className='bg-neutral-900 border border-neutral-800 text-neutral-400 text-sm px-4 py-2 rounded placeholder:text-neutral-700 placeholder:text-sm focus:outline-none w-56 sm:w-72 autofill:bg-neutral-900 autofill:text-neutral-500' onChange={(e) => setValue(e.target.value)}/>
 
                 <div className={classNames({
                     "hidden" : inputType !== "password"

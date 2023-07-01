@@ -1,4 +1,5 @@
 import { usePathname } from "next/navigation"
+import { Toaster } from "react-hot-toast"
 
 //Components
 import Footer from '@/components/Footer/Footer'
@@ -16,9 +17,13 @@ function Layout({ children }) {
         if (isLoading) return
     }, [isLoading])
 
-    if (pathname !== "/login") {
+    if (pathname !== "/register") {
         return (
             <>
+                <Toaster
+                    position="top-center"
+                    reverseOrder={false}
+                />
                 <div>
 
                     {isLoading && isHome ? (
@@ -37,6 +42,10 @@ function Layout({ children }) {
     } else {
         return (
             <div>
+                <Toaster
+                    position="top-center"
+                    reverseOrder={false}
+                />
                 <main>{children}</main>
             </div>
         )

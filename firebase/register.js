@@ -1,7 +1,6 @@
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import { app } from "@/firebase-config"
 import toast from "react-hot-toast"
-import { useRouter } from "next/router";
 
 const auth = getAuth(app)
 

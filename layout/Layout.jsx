@@ -29,7 +29,13 @@ function Layout({ children }) {
         }
 
         if(!isUser){
-            router.push("/register")
+            if(pathname === "/"){
+                setTimeout(() => {
+                    router.push("/register")
+                }, 3200)
+            }else if (pathname !== "/login"){
+                router.push("/register")
+            }
         }
 
         if (isLoading) return

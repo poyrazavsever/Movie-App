@@ -6,11 +6,9 @@ import { useRouter } from "next/router"
 import Link from "next/link"
 
 // Auth
-import { register } from "@/firebase/register"
-import { registerSchema } from "@/Validations/RegisterValidation"
-import { toast } from "react-hot-toast"
+import { login } from "@/firebase/login"
 
-function Register() {
+function Login() {
 
     const lineStyle = "h-[1px] w-full bg-neutral-700"
     
@@ -18,33 +16,15 @@ function Register() {
     const [emailValue, setEmailValue] = useState(false);
     const [passwordValue, setPasswordValue] = useState(false);
 
-    let formData = {
-        email : emailValue,
-        password: passwordValue
-    }
-
     const handleSubmit = async (e) => {
         e.preventDefault()
 
-        let isValid
-        let getErr
-        try{
-            isValid = await registerSchema.isValid(formData)
-            getErr = await registerSchema.validate(formData)
-        } catch(err){
-            toast.error(err.message)
-        }
-        
-        console.log(isValid)
-
-        if(isValid){
-            const user = await register(emailValue, passwordValue)
+        const user = await login(emailValue, passwordValue)
             if(typeof window !== 'undefined' && user){
                 localStorage.setItem("user", JSON.stringify(user))
                 router.push("/")
             }
-            console.log(user)
-        }
+        console.log(user)
     }
     
     const animate = () => {
@@ -154,7 +134,7 @@ function Register() {
             <div id="shadow" className='absolute top-12 -left-12 w-24 h-24 bg-violet-700 blur-3xl !-z-40'></div>
 
             <div className="py-8 flex flex-col items-start gap-4" id="title">
-                <h3 className="text-xl md:text-2xl font-semibold text-neutral-400">Kayıt Ol</h3>
+                <h3 className="text-xl md:text-2xl font-semibold text-neutral-400">Giriş Yap</h3>
                 <div className={lineStyle}></div>
             </div>
 
@@ -168,9 +148,9 @@ function Register() {
                         <Input inputType='password' id="password" label="Parola" palceholder="*********" setValue={setPasswordValue}/>
                 </div>                
 
-                <button id="submitBtnAnimate" type="submit" className='w-full py-2 text-sm text-violet-100 font-medium bg-violet-700 rounded hover:bg-violet-900 transition-all disabled:bg-neutral-700 disabled:text-neutral-500' disabled={!emailValue || !passwordValue ? true : false}>Kayıt Ol</button>
+                <button id="submitBtnAnimate" type="submit" className='w-full py-2 text-sm text-violet-100 font-medium bg-violet-700 rounded hover:bg-violet-900 transition-all disabled:bg-neutral-700 disabled:text-neutral-500' disabled={!emailValue || !passwordValue ? true : false}>Giriş Yap</button>
 
-                <span id="info" className="text-sm text-neutral-500 font-medium">Zaten kayıt oldun mu? <Link href="/login" className="text-neutral-300 underline">Buradan Giriş Yap</Link></span>
+                <span id="info" className="text-sm text-neutral-500 font-medium">Daha kayıt olmadın mı? <Link href="/register" className="text-neutral-300 underline">Buradan Kayıt Olun</Link></span>
 
                 <div id="orAnimate" className='w-full flex items-center justify-between gap-4 my-3'>
                     <div className={lineStyle}></div>
@@ -197,4 +177,4 @@ function Register() {
   )
 }
 
-export default Register
+export default Login

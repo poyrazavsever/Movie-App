@@ -2,9 +2,12 @@ import { useState, useEffect } from "react"
 import Input from '@/components/Input'
 import Icon from "@/components/Icon"
 import anime from 'animejs'
+import * as yup from "yup"
 
 // Auth
 import { register } from "@/firebase/register"
+import { registerSchema } from "@/Validations/RegisterValidation"
+import { toast } from "react-hot-toast"
 
 function Register() {
 
@@ -13,13 +16,32 @@ function Register() {
     const [emailValue, setEmailValue] = useState(false);
     const [passwordValue, setPasswordValue] = useState(false);
 
+    let formData = {
+        email : emailValue,
+        password: passwordValue
+    }
+
     const handleSubmit = async (e) => {
         e.preventDefault()
-        const user = await register(emailValue, passwordValue)
-        if(typeof window !== 'undefined'){
-            localStorage.setItem("user", JSON.stringify(user))
+
+        let isValid
+        let getErr
+        try{
+            isValid = await registerSchema.isValid(formData)
+            getErr = await registerSchema.validate(formData)
+        } catch(err){
+            toast.error(err.message)
         }
-        console.log(user)
+        
+        console.log(isValid)
+
+        if(isValid){
+            const user = await register(emailValue, passwordValue)
+            if(typeof window !== 'undefined'){
+                localStorage.setItem("user", JSON.stringify(user))
+            }
+            console.log(user)
+        }
     }
     
     const animate = () => {

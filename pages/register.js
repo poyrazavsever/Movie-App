@@ -2,7 +2,7 @@ import { useState, useEffect } from "react"
 import Input from '@/components/Input'
 import Icon from "@/components/Icon"
 import anime from 'animejs'
-import * as yup from "yup"
+import { useRouter } from "next/router"
 
 // Auth
 import { register } from "@/firebase/register"
@@ -12,6 +12,8 @@ import { toast } from "react-hot-toast"
 function Register() {
 
     const lineStyle = "h-[1px] w-full bg-neutral-700"
+    
+    const router = useRouter();
     
     const [emailValue, setEmailValue] = useState(false);
     const [passwordValue, setPasswordValue] = useState(false);
@@ -37,8 +39,9 @@ function Register() {
 
         if(isValid){
             const user = await register(emailValue, passwordValue)
-            if(typeof window !== 'undefined'){
+            if(typeof window !== 'undefined' && user){
                 localStorage.setItem("user", JSON.stringify(user))
+                router.push("/")
             }
             console.log(user)
         }
@@ -124,6 +127,12 @@ function Register() {
     }
 
     useEffect(() => {
+        if(typeof window !== 'undefined'){
+            const user = localStorage.getItem("user")
+            if(user) {
+                router.push("/")
+            }
+        }
         animate()
     }, [])
 
@@ -136,7 +145,7 @@ function Register() {
             <div id="shadow" className='absolute top-12 -left-12 w-24 h-24 bg-violet-700 blur-3xl !-z-40'></div>
 
             <div className="py-8 flex flex-col items-start gap-4" id="title">
-                <h3 className="text-xl md:text-2xl font-semibold text-neutral-400">Giriş Yap</h3>
+                <h3 className="text-xl md:text-2xl font-semibold text-neutral-400">Kayıt Ol</h3>
                 <div className={lineStyle}></div>
             </div>
 
@@ -150,7 +159,7 @@ function Register() {
                         <Input inputType='password' id="password" label="Parola" palceholder="*********" setValue={setPasswordValue}/>
                 </div>                
 
-                <button id="submitBtnAnimate" className='w-full py-2 text-sm text-violet-100 font-medium bg-violet-700 rounded hover:bg-violet-900 transition-all disabled:bg-neutral-700 disabled:text-neutral-500' disabled={!emailValue || !passwordValue ? true : false}>Giriş Yap</button>
+                <button id="submitBtnAnimate" type="submit" className='w-full py-2 text-sm text-violet-100 font-medium bg-violet-700 rounded hover:bg-violet-900 transition-all disabled:bg-neutral-700 disabled:text-neutral-500' disabled={!emailValue || !passwordValue ? true : false}>Kayıt Ol</button>
 
                 <div id="orAnimate" className='w-full flex items-center justify-between gap-4 my-3'>
                     <div className={lineStyle}></div>
@@ -158,15 +167,15 @@ function Register() {
                     <div className={lineStyle}></div> 
                 </div>
 
-                <button id="googleBtnAnimate" className='w-full py-2 text-sm text-neutral-300 font-medium border border-neutral-500 rounded hover:border-neutral-700 transition-all flex items-center justify-center gap-2'>
+                <a id="googleBtnAnimate" className='w-full py-2 text-sm text-neutral-300 font-medium border border-neutral-500 rounded hover:border-neutral-700 transition-all flex items-center justify-center gap-2 cursor-pointer'>
                     <Icon iconType="ai" iconName="AiOutlineGoogle" iconColor="text-neutral-300" classnames="text-xl"/>
                     <span>Google ile Devam Et</span>
-                </button>
+                </a>
 
-                <button id="githubBtnAnimate" className='w-full py-2 text-sm text-neutral-300 font-medium border border-neutral-500 rounded hover:border-neutral-700 transition-all flex items-center justify-center gap-2'>
+                <a id="githubBtnAnimate" className='w-full py-2 text-sm text-neutral-300 font-medium border border-neutral-500 rounded hover:border-neutral-700 transition-all flex items-center justify-center gap-2 cursor-pointer'>
                     <Icon iconType="ai" iconName="AiOutlineGithub" iconColor="text-neutral-300" classnames="text-xl"/>
                     <span>Github ile Devam Et</span>
-                </button>
+                </a>
 
             </form>
 

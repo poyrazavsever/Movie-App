@@ -42,7 +42,6 @@ function Register() {
             if(typeof window !== 'undefined' && user){
                 localStorage.setItem("user", JSON.stringify(user))
                 router.push("/")
-                toast.success('Başarıyla Kayıt oldunuz!')
             }
             console.log(user)
         }

@@ -1,5 +1,5 @@
 import { usePathname } from "next/navigation"
-import { Toaster, toast } from "react-hot-toast"
+import { Toaster } from "react-hot-toast"
 
 //Components
 import Footer from '@/components/Footer/Footer'

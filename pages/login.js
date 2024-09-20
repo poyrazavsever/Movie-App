@@ -7,6 +7,7 @@ import Link from "next/link"
 
 // Auth
 import { login } from "@/firebase/login"
+import toast from "react-hot-toast"
 
 function Login() {
 
@@ -23,6 +24,7 @@ function Login() {
             if(typeof window !== 'undefined' && user){
                 localStorage.setItem("user", JSON.stringify(user))
                 router.push("/")
+                toast.success('Başarıyla giriş yapıldı!')
             }
         console.log(user)
     }
@@ -120,6 +122,7 @@ function Login() {
             const user = localStorage.getItem("user")
             if(user){
                 router.push("/")
+                toast.error('Zaten giriş yaptınız.')
             }
         }
         animate()
